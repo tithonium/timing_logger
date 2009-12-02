@@ -1,0 +1,18 @@
+Really REALLY simplistic timing wrappers.
+
+In a controller:
+  time_actions
+to log the time to process all actions, or
+  time_actions :action, :other_action, :otherother_action
+to only watch those.
+
+
+Inside a function, time a block (pass a 'type' and a description):
+  time_block "API CALL", args.inspect do
+    do_something(*args)
+  end
+
+
+To wrapper a function you don't control:
+  TimingLogger::wrap_function(Some::Other::Module, :the_function)
+  
