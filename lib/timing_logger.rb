@@ -26,15 +26,12 @@ module TimingLogger
   end
   
   def self.wrap_function(klass, function)
-    RAILS_DEFAULT_LOGGER.warn "klass[#{klass}] function[#{function}]"
     toeval=<<-"EVAL"
       def #{function}_with_timing *args, &block
         TimingLogger::log("FUNCTION", "#{function}(\#{args.inspect})") { #{function}_without_timing(*args, &block) }
       end
       alias_method_chain :#{function.to_sym}, :timing
     EVAL
-    RAILS_DEFAULT_LOGGER.warn "toeval[#{toeval}]"
-    # (klass << self; self; end).class_eval toeval
     klass.class_eval toeval
   end
 
